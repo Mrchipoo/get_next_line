@@ -6,7 +6,7 @@
 /*   By: echoubby <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:24:09 by echoubby          #+#    #+#             */
-/*   Updated: 2023/12/04 11:05:14 by echoubby         ###   ########.fr       */
+/*   Updated: 2023/12/04 12:56:23 by echoubby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,6 @@ char	*ft_strchr( char *s, int c);
 size_t	ft_strlen(const char *str);
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *str);
+int		len_line(char const *str);
+char	*ft_strdup(const char *s);
 #endif
