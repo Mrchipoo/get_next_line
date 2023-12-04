@@ -6,14 +6,14 @@
 /*   By: echoubby <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:29:09 by echoubby          #+#    #+#             */
-/*   Updated: 2023/12/04 14:21:08 by echoubby         ###   ########.fr       */
+/*   Updated: 2023/12/04 16:16:28 by echoubby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 #include <fcntl.h>
 #include <stdio.h>
 
-char	*reading(int fd)
+static char	*reading(int fd)
 {
 	int		i;
 	char	*buff;
@@ -40,9 +40,9 @@ char	*reading(int fd)
 	return (s);
 }
 
-char	*line(char *s, int len)
+static char	*line(char *s, int len)
 {
-	int	i;
+	int		i;
 	char	*new_line;
 
 	i = 0;
@@ -62,13 +62,13 @@ char	*line(char *s, int len)
 
 char	*get_next_line(int fd)
 {
-	int		len;
+	int			len;
 	static char	*s;
-	char	*new;
+	char		*new;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!(ft_strchr(s , '\n')))
+	if (!ft_strchr(s, '\n'))
 	{
 		s = reading(fd);
 		if (s == NULL)
@@ -81,7 +81,7 @@ char	*get_next_line(int fd)
 	s = s + len + 1;
 	return (new);
 }
-
+/*
 int main()
 {
 	int fd = open("file.txt", O_RDONLY);
@@ -91,4 +91,4 @@ int main()
 	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
 	return 0;
-}
+}*/
