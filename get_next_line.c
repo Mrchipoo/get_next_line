@@ -6,7 +6,7 @@
 /*   By: echoubby <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:29:09 by echoubby          #+#    #+#             */
-/*   Updated: 2023/12/04 12:55:26 by echoubby         ###   ########.fr       */
+/*   Updated: 2023/12/04 14:21:08 by echoubby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -68,20 +68,27 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	s = reading(fd);
-	if (s == NULL)
-		return (NULL);
+	if (!(ft_strchr(s , '\n')))
+	{
+		s = reading(fd);
+		if (s == NULL)
+			return (NULL);
+	}
 	len = len_line(s);
 	new = line(s, len);
 	if (new == NULL)
 		return (NULL);
-	s = s + line;
+	s = s + len + 1;
 	return (new);
 }
 
-/*int main()
+int main()
 {
 	int fd = open("file.txt", O_RDONLY);
 	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 	return 0;
-}*/
+}
