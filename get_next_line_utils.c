@@ -6,7 +6,7 @@
 /*   By: echoubby <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 10:59:51 by echoubby          #+#    #+#             */
-/*   Updated: 2023/12/04 12:33:42 by echoubby         ###   ########.fr       */
+/*   Updated: 2023/12/06 13:07:42 by echoubby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -74,6 +74,8 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 		i++;
 	return (i);
@@ -84,7 +86,7 @@ int	len_line(char const *str)
 	int	i;
 
 	i = 0;
-	while (str[i] && str[i] != '\n')
+	while (*str && *str++ != '\n')
 		i++;
 	return (i);
 }
