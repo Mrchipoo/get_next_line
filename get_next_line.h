@@ -18,8 +18,7 @@
 #  define BUFFER_SIZE 1024
 # endif
 
-char	*ft_strjoin(char *s1, char *s2, int len);
-char	*ft_strchr( char *s, int c);
+char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlen(const char *str);
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *str);

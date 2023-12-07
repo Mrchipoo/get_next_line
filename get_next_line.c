@@ -6,7 +6,7 @@
 /*   By: echoubby <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:29:09 by echoubby          #+#    #+#             */
-/*   Updated: 2023/12/06 13:06:58 by echoubby         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:32:34 by echoubby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -28,9 +28,9 @@ static char	*reading(int fd)
 	{
 		i = read(fd, buff, BUFFER_SIZE);
 		if (i == -1)
-			return (free(s), free(buff), NULL);
+			return (free(s), free(buff), ft_strdup(""));
 		buff[i] = '\0';
-		s = ft_strjoin(s, buff, i);
+		s = ft_strjoin(s, buff);
 	}
 	free (buff);
 	return (s);
@@ -47,7 +47,7 @@ static char	*line(char *s, int len)
 	new_line = malloc(len + 1);
 	if (!new_line)
 		return (NULL);
-	while (i <= len)
+	while (i < len)
 	{
 		new_line[i] = s[i];
 		i++;
@@ -62,7 +62,7 @@ char	*get_next_line(int fd)
 	static char	*s;
 	char		*new;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	len = ft_strlen(s);
 	if (len == 0)
@@ -79,11 +79,11 @@ char	*get_next_line(int fd)
 	new = line(s, len);
 	if (new == NULL)
 		return (NULL);
-	s = s + len + 1;
+	s = s + len;
 	return (new);
 }
 
-/*int main()
+int main()
 {
 	int fd = open("file.txt", O_RDONLY);
 	printf("%s", get_next_line(fd));
@@ -93,4 +93,4 @@ char	*get_next_line(int fd)
 	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
 	return 0;
-}*/
+}

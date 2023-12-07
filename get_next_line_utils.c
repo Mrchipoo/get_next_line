@@ -11,24 +11,17 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-char	*ft_strchr(char *s, int c)
-{
-	while (s && *s)
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	return (0);
-}
-
 char	*ft_strdup(const char *s)
 {
 	char	*pt;
 	int		i;
+	int		len;
 
 	i = 0;
-	pt = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (!s)
+		return (0);
+	len = ft_strlen(s);
+	pt = malloc(sizeof(char) * (len + 1));
 	if (pt == NULL)
 		return (NULL);
 	while (s[i])
@@ -40,10 +33,10 @@ char	*ft_strdup(const char *s)
 	return (pt);
 }
 
-char	*ft_strjoin(char *s1, char *s2, int len)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	int		i;
-	int		tol;
+	int		len;
 	int		j;
 	char	*b;
 
@@ -53,16 +46,16 @@ char	*ft_strjoin(char *s1, char *s2, int len)
 		return (NULL);
 	if (!s1)
 		return (ft_strdup(s2));
-	tol = ft_strlen(s1);
-	b = malloc((tol + len + 1) * sizeof(char));
+	len = ft_strlen(s1) + ft_strlen(s2);
+	b = malloc((len + 1) * sizeof(char));
 	if (b == NULL)
 		return (0);
-	while (s1[i] && i < tol + len)
+	while (s1[i] && i < len)
 	{
 		b[i] = s1[i];
 		i++;
 	}
-	while (s2[j] && i < tol + len)
+	while (s2[j] && i < len)
 		b[i++] = s2[j++];
 	b[i] = '\0';
 	free (s1);
@@ -76,7 +69,7 @@ size_t	ft_strlen(const char *str)
 	i = 0;
 	if (!str)
 		return (0);
-	while (str[i])
+	while (*str++)
 		i++;
 	return (i);
 }
@@ -86,7 +79,14 @@ int	len_line(char const *str)
 	int	i;
 
 	i = 0;
-	while (*str && *str++ != '\n')
+	if (!str)
+		return (0);
+	while (*str && *str != '\n')
+	{
 		i++;
+		str++;
+	}
+	if (*str && *str == '\n')
+		return (i + 1);
 	return (i);
 }
