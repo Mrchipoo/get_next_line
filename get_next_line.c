@@ -13,43 +13,6 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-static	int	len_line(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (*str != '\0' && *str != '\n')
-	{	
-		i++;
-		str++;
-	}
-	if (*str && *str == '\n')
-		return (i + 1);
-	return (i);
-}
-
-static char	*extract_line(char *s)
-{
-	char	*tmp;
-	int		j;
-
-	j = 0;
-	while (s[j])
-	{
-		if (s[j] == '\n')
-		{
-			tmp = ft_substr(s, j + 1, ft_strlen(s));
-			free(s);
-			return (tmp);
-		}
-		j++;
-	}
-	free(s);
-	return (NULL);
-}
-
 static char	*reading(int fd)
 {
 	int		i;
@@ -78,6 +41,46 @@ static char	*reading(int fd)
 	return (s);
 }
 
+static	char	*read_free(char *s, int fd)
+{
+	char	*tmp;
+	char	*read;
+
+	tmp = s;
+	read = reading(fd);
+	s = ft_strjoin(tmp, read);
+	free(tmp);
+	if (s[0] == '\0' || !read)
+	{
+		free(read);
+		free(s);
+		s = NULL;
+		return (NULL);
+	}
+	free(read);
+	return (s);
+}
+
+static char	*extract_line(char *s)
+{
+	char	*tmp;
+	int		j;
+
+	j = 0;
+	while (s[j])
+	{
+		if (s[j] == '\n')
+		{
+			tmp = ft_substr(s, j + 1, ft_strlen(s, 1));
+			free(s);
+			return (tmp);
+		}
+		j++;
+	}
+	free(s);
+	return (NULL);
+}
+
 static char	*line(char *s, int len)
 {
 	char	*new_line;
@@ -93,31 +96,21 @@ char	*get_next_line(int fd)
 	int			len;
 	static char	*s;
 	char		*new;
-	char		*read;
-	char		*tmp;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	if (check(s) == 0)
 	{
-		tmp = s;
-		read = reading(fd);
-		s = ft_strjoin(tmp, read);
-		free(tmp);
-		if (s[0] == '\0' || !read)
-		{
-			free(read);
-			free(s);
-			s = NULL;
+		s = read_free(s, fd);
+		if (s == NULL)
 			return (NULL);
-		}
-		free(read);
 	}
-	len = len_line(s);
+	len = ft_strlen(s, 2);
 	new = line(s, len);
-	if (s[len - 1] == '\n')
+	if (s[len - 1])
+	{
+		s[len - 1] = '\n';
 		s = extract_line(s);
-	if (s == NULL)
-		return (NULL);
+	}
 	return (new);
 }

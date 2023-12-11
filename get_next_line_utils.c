@@ -20,7 +20,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	i = 0;
 	if (!s)
 		return (0);
-	tol = ft_strlen(s);
+	tol = ft_strlen(s, 1);
 	if (start >= tol)
 		return (ft_strdup(""));
 	if (tol - start <= len)
@@ -59,7 +59,7 @@ char	*ft_strdup(char *s)
 	i = 0;
 	if (!s)
 		return (NULL);
-	len = ft_strlen(s);
+	len = ft_strlen(s, 1);
 	pt = malloc(sizeof(char) * (len + 1));
 	if (pt == NULL)
 		return (NULL);
@@ -85,7 +85,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	if (!s1)
 		return (ft_strdup(s2));
-	len = ft_strlen(s1) + ft_strlen(s2);
+	len = ft_strlen(s1, 1) + ft_strlen(s2, 1);
 	b = malloc((len + 1) * sizeof(char));
 	if (b == NULL)
 		return (NULL);
@@ -100,17 +100,30 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (b);
 }
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen(const char *str, int mode)
 {
 	size_t	i;
 
 	i = 0;
 	if (!str)
 		return (0);
-	while (*str != '\0')
+	if (mode == 1)
 	{
-		i++;
-		str++;
+		while (*str != '\0')
+		{
+			i++;
+			str++;
+		}
+	}
+	else if (mode == 2)
+	{
+		while (*str != '\0' && *str != '\n')
+		{	
+			i++;
+			str++;
+		}
+		if (*str && *str == '\n')
+			return (i + 1);
 	}
 	return (i);
 }

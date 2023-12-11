@@ -22,6 +22,6 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		check(char *s);;
 char	*get_next_line(int fd);
-size_t	ft_strlen(const char *str);
+size_t	ft_strlen(const char *str, int mode);
 char	*ft_strdup(char *s);
 #endif
