@@ -6,12 +6,51 @@
 /*   By: echoubby <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 10:59:51 by echoubby          #+#    #+#             */
-/*   Updated: 2023/12/06 13:07:42 by echoubby         ###   ########.fr       */
+/*   Updated: 2023/12/11 14:25:54 by echoubby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-char	*ft_strdup(const char *s)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t		i;
+	char		*subs;
+	size_t		tol;
+
+	i = 0;
+	if (!s)
+		return (0);
+	tol = ft_strlen(s);
+	if (start >= tol)
+		return (ft_strdup(""));
+	if (tol - start <= len)
+		len = tol - start;
+	subs = malloc(len + 1);
+	if (subs == NULL)
+		return (0);
+	while (i < len && s[start + i] != '\0')
+	{
+		subs[i] = s[start + i];
+		i++;
+	}
+	subs[i] = '\0';
+	return (subs);
+}
+
+int	check(char *s)
+{
+	if (!s)
+		return (0);
+	while (*s != '\0')
+	{
+		if (*s == '\n')
+			return (1);
+		s++;
+	}
+	return (0);
+}
+
+char	*ft_strdup(char *s)
 {
 	char	*pt;
 	int		i;
@@ -19,7 +58,7 @@ char	*ft_strdup(const char *s)
 
 	i = 0;
 	if (!s)
-		return (0);
+		return (NULL);
 	len = ft_strlen(s);
 	pt = malloc(sizeof(char) * (len + 1));
 	if (pt == NULL)
@@ -49,7 +88,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	len = ft_strlen(s1) + ft_strlen(s2);
 	b = malloc((len + 1) * sizeof(char));
 	if (b == NULL)
-		return (0);
+		return (NULL);
 	while (s1[i] && i < len)
 	{
 		b[i] = s1[i];
@@ -58,7 +97,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[j] && i < len)
 		b[i++] = s2[j++];
 	b[i] = '\0';
-	free (s1);
 	return (b);
 }
 
@@ -69,24 +107,10 @@ size_t	ft_strlen(const char *str)
 	i = 0;
 	if (!str)
 		return (0);
-	while (*str++)
-		i++;
-	return (i);
-}
-
-int	len_line(char const *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (*str && *str != '\n')
+	while (*str != '\0')
 	{
 		i++;
 		str++;
 	}
-	if (*str && *str == '\n')
-		return (i + 1);
 	return (i);
 }
