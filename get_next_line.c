@@ -25,7 +25,7 @@ static char	*reading(int fd)
 		return (NULL);
 	s = NULL;
 	i = 1;
-	while (i > 0)
+	while (!check(s) && i > 0)
 	{
 		i = read(fd, buff, BUFFER_SIZE);
 		if (i == -1)
@@ -50,6 +50,8 @@ static	char	*read_free(char *s, int fd)
 	read = reading(fd);
 	s = ft_strjoin(tmp, read);
 	free(tmp);
+	if (!s)
+		return (free(read), NULL);
 	if (s[0] == '\0' || !read)
 	{
 		free(read);
@@ -107,10 +109,14 @@ char	*get_next_line(int fd)
 	}
 	len = ft_strlen(s, 2);
 	new = line(s, len);
-	if (s[len - 1])
+	if (!new)
+		return (free(s), s = NULL, NULL);
+	if (len > 0)
 	{
 		s[len - 1] = '\n';
 		s = extract_line(s);
+		if (!s)
+			return (free(new), NULL);
 	}
 	return (new);
 }
